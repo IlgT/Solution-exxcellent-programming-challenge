@@ -1,21 +1,23 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.calculator.Calculations;
+
+import java.util.List;
+
 /**
- * The entry class for your solution. This class is only aimed as starting point and not intended as baseline for your software
- * design. Read: create your own classes and packages as appropriate.
+ * The entry class for this solution.
  *
- * @author Benjamin Schmid <benjamin.schmid@exxcellent.de>
+ * @author Tobias Ilg <tobias.ilg@gmx.net>
  */
 public final class App {
-
+    /**
+     * Main method that outputs the result of calculations in the console.
+     *
+     * @param args Command line parameters
+     *
+     * @author Tobias Ilg <tobias.ilg@gmx.net>
+     */
     public static void main(String... args) {
-
-        // Your preparation code …
-
-        String dayWithSmallestTempSpread = "Someday";     // Your day analysis function call …
-        String teamWithSmallesGoalSpread = "A good team"; // Your goal analysis function call …
-
-        System.out.printf("Day with smallest temperature spread : %s%n", dayWithSmallestTempSpread);
-        System.out.printf("Team with smallest goal spread       : %s%n", teamWithSmallesGoalSpread);
+//        Todo: Implement
     }
 }
