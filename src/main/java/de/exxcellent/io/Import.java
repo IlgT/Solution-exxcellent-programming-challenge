@@ -61,8 +61,49 @@ public class Import {
      * @author Tobias Ilg <tobias.ilg@gmx.net>
      */
     private static List<String> getColumnCSV(String filePath, String nameTag) {
-//        Todo: Implement
         List<String> returnList = new ArrayList<>();
+        try {
+            java.io.BufferedReader FileReader = new java.io.BufferedReader(new java.io.FileReader(
+                    new java.io.File(filePath)));
+
+            String row = FileReader.readLine();
+            int column = -1;
+            if (row != null) {
+                String separator = getCSVSeparator(row);
+                if (!separator.equals(",")) {
+                    row = FileReader.readLine();
+                }
+                String[] columns = row.split(separator);
+                for (int i = 0; i < columns.length; i++) {
+                    if (columns[i].equals(nameTag)) {
+                        column = i;
+                        break;
+                    }
+                }
+
+                if (column >= 0) {
+                    while ((row = FileReader.readLine()) != null) {
+                        columns = row.split(separator);
+                        if (column < columns.length ) {
+                            returnList.add(columns[column]);
+                        } else {
+                            throw new ArrayIndexOutOfBoundsException("Missing Data");
+                        }
+                    }
+                    FileReader.close();
+                    return returnList;
+                } else {
+                    FileReader.close();
+                    throw new IllegalArgumentException("NameTag not Found");
+                }
+            } else {
+                FileReader.close();
+                throw new IllegalArgumentException("File was empty");
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            System.exit(1);
+        }
         return returnList;
     }
 
@@ -73,8 +114,11 @@ public class Import {
      * @return the separator of the csv-file, if defined, otherwise "," as default
      */
     private static String getCSVSeparator(String row) {
-//        Todo: Implement
-        String separator = null;
+        String separator = ",";
+        if (row.contains("sep=")){
+            int separatorStartIndex = row.indexOf("sep=") + 4;
+            separator = row.substring(separatorStartIndex, separatorStartIndex + 1);
+        }
         return separator;
     }
 }
