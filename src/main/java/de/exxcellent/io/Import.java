@@ -23,9 +23,14 @@ public class Import {
      * @author Tobias Ilg <tobias.ilg@gmx.net>
      */
     public static List<String> getColumnStrings(String filePath, String nameTag) {
-//        Todo: Implement
-        List<String> returnList = new ArrayList<>();
-        return returnList;
+        String fileExtension = filePath.substring(filePath.lastIndexOf(".") + 1);
+        switch (fileExtension) {
+            case "csv":
+                return getColumnCSV(filePath, nameTag);
+
+            default:
+                throw new IllegalArgumentException("File format (." + fileExtension + ") is not supported");
+        }
     }
 
     /**
@@ -42,9 +47,23 @@ public class Import {
      * @author Tobias Ilg <tobias.ilg@gmx.net>
      */
     public static List<Integer> getColumnIntegers(String filePath, String nameTag) {
-//        Todo: Implement
-        List <Integer> returnList = new ArrayList<>();
-        return returnList;
+        String fileExtension = filePath.substring(filePath.lastIndexOf(".") + 1);
+        switch (fileExtension) {
+            case "csv":
+                List<String> stringList = getColumnCSV(filePath, nameTag);
+                List<Integer> returnList = new ArrayList<>();
+                for (String numberString : stringList) {
+                    try {
+                        returnList.add(Integer.parseInt(numberString));
+                    } catch (NumberFormatException exception) {
+                        exception.printStackTrace();
+                    }
+                }
+                return returnList;
+
+            default:
+                throw new IllegalArgumentException("File format (." + fileExtension + ") is not supported");
+        }
     }
 
     /**
