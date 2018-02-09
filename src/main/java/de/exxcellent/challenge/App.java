@@ -22,10 +22,6 @@ public final class App {
         String weatherFilePath = "src/main/resources/de/exxcellent/challenge/weather.csv";
         List<String> daysWithSmallestTempSpread = Calculations.getElementsByDifference(weatherFilePath,"Day",
                 "MxT", "MnT");
-        String footballFilePath = "src/main/resources/de/exxcellent/challenge/football.csv";
-        List<String> teamsWithSmallestGoalSpread = Calculations.getElementsByDifference(footballFilePath,"Team",
-                "Goals", "Goals Allowed");
-
 
         int counter = 0;
         for (String day: daysWithSmallestTempSpread) {
@@ -38,6 +34,10 @@ public final class App {
             }
         }
         System.out.printf("%n");
+
+        String footballFilePath = "src/main/resources/de/exxcellent/challenge/football.csv";
+        List<String> teamsWithSmallestGoalSpread = Calculations.getElementsByDifference(footballFilePath,"Team",
+                "Goals", "Goals Allowed");
 
         counter = 0;
         for (String team: teamsWithSmallestGoalSpread) {

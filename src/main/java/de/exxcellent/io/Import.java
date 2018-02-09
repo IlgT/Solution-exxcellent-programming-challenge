@@ -41,7 +41,6 @@ public class Import {
      * @param nameTag The Tag of the desired string-values to be read
      * @return The list of read values as a int
      *
-     * @exception NumberFormatException if it is not possible to parse the string into a int
      * @exception IllegalArgumentException File Format is not supported
      *
      * @author Tobias Ilg <tobias.ilg@gmx.net>
@@ -53,10 +52,12 @@ public class Import {
                 List<String> stringList = getColumnCSV(filePath, nameTag);
                 List<Integer> returnList = new ArrayList<>();
                 for (String numberString : stringList) {
+                    // catches NumberFormatException if the given string does not represent an integer
                     try {
                         returnList.add(Integer.parseInt(numberString));
                     } catch (NumberFormatException exception) {
                         exception.printStackTrace();
+                        System.exit(1);
                     }
                 }
                 return returnList;
@@ -81,43 +82,43 @@ public class Import {
      */
     private static List<String> getColumnCSV(String filePath, String nameTag) {
         List<String> returnList = new ArrayList<>();
+        // catches IOException if the file is not found
         try {
-            java.io.BufferedReader FileReader = new java.io.BufferedReader(new java.io.FileReader(
-                    new java.io.File(filePath)));
+            // closes the desired resource
+            try (java.io.BufferedReader FileReader = new java.io.BufferedReader(new java.io.FileReader(
+                    new java.io.File(filePath)))) {
 
-            String row = FileReader.readLine();
-            int column = -1;
-            if (row != null) {
-                String separator = getCSVSeparator(row);
-                if (!separator.equals(",")) {
-                    row = FileReader.readLine();
-                }
-                String[] columns = row.split(separator);
-                for (int i = 0; i < columns.length; i++) {
-                    if (columns[i].equals(nameTag)) {
-                        column = i;
-                        break;
+                String row = FileReader.readLine();
+                int column = -1;
+                if (row != null) {
+                    String separator = getCSVSeparator(row);
+                    if (!separator.equals(",")) {
+                        row = FileReader.readLine();
                     }
-                }
-
-                if (column >= 0) {
-                    while ((row = FileReader.readLine()) != null) {
-                        columns = row.split(separator);
-                        if (column < columns.length ) {
-                            returnList.add(columns[column]);
-                        } else {
-                            throw new ArrayIndexOutOfBoundsException("Missing Data");
+                    String[] columns = row.split(separator);
+                    for (int i = 0; i < columns.length; i++) {
+                        if (columns[i].equals(nameTag)) {
+                            column = i;
+                            break;
                         }
                     }
-                    FileReader.close();
-                    return returnList;
+
+                    if (column >= 0) {
+                        while ((row = FileReader.readLine()) != null) {
+                            columns = row.split(separator);
+                            if (column < columns.length) {
+                                returnList.add(columns[column]);
+                            } else {
+                                throw new ArrayIndexOutOfBoundsException("Missing Data");
+                            }
+                        }
+                        return returnList;
+                    } else {
+                        throw new IllegalArgumentException("NameTag not Found");
+                    }
                 } else {
-                    FileReader.close();
-                    throw new IllegalArgumentException("NameTag not Found");
+                    throw new IllegalArgumentException("File was empty");
                 }
-            } else {
-                FileReader.close();
-                throw new IllegalArgumentException("File was empty");
             }
         } catch (IOException exception) {
             exception.printStackTrace();
