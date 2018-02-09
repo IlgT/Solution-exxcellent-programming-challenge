@@ -23,10 +23,11 @@ public class Calculations {
      */
     public static List<String> getElementsByDifference(String filePath, String nameTag, String firstValueTag,
                                                        String secondValueTag) {
-//        Todo: Implement
-        List<String> names = new ArrayList<>();
+        List<String>  names = de.exxcellent.io.Import.getColumnStrings(filePath, nameTag);
+        List<Integer> firstValues = de.exxcellent.io.Import.getColumnIntegers(filePath, firstValueTag);
+        List<Integer> secondValues = de.exxcellent.io.Import.getColumnIntegers(filePath, secondValueTag);
 
-        return names;
+        return getElementsWithLowestDifference(names, firstValues, secondValues);
     }
 
     /**
@@ -41,8 +42,18 @@ public class Calculations {
      */
     private static List<String> getElementsWithLowestDifference(List<String> nameList, List<Integer> firstValues,
                                                                 List<Integer> secondValues) {
-//        Todo: Implement
+        int minDifference = Integer.MAX_VALUE;
         List<String> returnList = new ArrayList<>();
+        for (int i = 0; i < firstValues.size(); i++) {
+            int difference = Math.abs(firstValues.get(i) - secondValues.get(i));
+            if (difference < minDifference) {
+                minDifference = difference;
+                returnList.clear();
+                returnList.add(nameList.get(i));
+            } else if (difference == minDifference) {
+                returnList.add(nameList.get(i));
+            }
+        }
         return returnList;
     }
 }
