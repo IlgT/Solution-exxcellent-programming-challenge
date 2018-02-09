@@ -29,6 +29,8 @@ public class CalculationsTest {
 
     @Test
     public void givenValuesShouldGenerateCorrectResult() {
+        System.out.println(System.getProperty("user.dir"));
+
         List<String>  calculatedList = getElementsByDifference(filePath, nameColumn,  firstValueColumn, secondValueColumn);
         assertEquals(resultList, calculatedList);
     }
