@@ -1,0 +1,11 @@
+CSV-Datei einlesen --> Modular für andere andere Dateiformate
+	CSV --> Standard ,-Trennung, andere Trennzeichen möglich
+		Header möglich
+	Einlesen --> String & Integer, Modular aufbauen für andere möglichen Werte
+
+Probleme beim Einlesen:
+ - unterschiedliche CSV Separatoren 
+ - nicht unterstütztes Dateiformat
+ - Fehlende Daten (Zelle (Spalte/Zeile) ohne Wert)
+ - Leere Datei
+ - Datei nicht gefunden
