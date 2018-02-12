@@ -83,42 +83,40 @@ public class Import {
     private static List<String> getColumnCSV(String filePath, String nameTag) {
         List<String> returnList = new ArrayList<>();
         // catches IOException if the file is not found
-        try {
-            // closes the desired resource
-            try (java.io.BufferedReader FileReader = new java.io.BufferedReader(new java.io.FileReader(
-                    new java.io.File(filePath)))) {
+        // closes the desired resource
+        try (java.io.BufferedReader FileReader = new java.io.BufferedReader(new java.io.FileReader(
+                new java.io.File(filePath)))){
 
-                String row = FileReader.readLine();
-                int column = -1;
-                if (row != null) {
-                    String separator = getCSVSeparator(row);
-                    if (!separator.equals(",")) {
-                        row = FileReader.readLine();
-                    }
-                    String[] columns = row.split(separator);
-                    for (int i = 0; i < columns.length; i++) {
-                        if (columns[i].equals(nameTag)) {
-                            column = i;
-                            break;
-                        }
-                    }
-
-                    if (column >= 0) {
-                        while ((row = FileReader.readLine()) != null) {
-                            columns = row.split(separator);
-                            if (column < columns.length) {
-                                returnList.add(columns[column]);
-                            } else {
-                                throw new ArrayIndexOutOfBoundsException("Missing Data");
-                            }
-                        }
-                        return returnList;
-                    } else {
-                        throw new IllegalArgumentException("NameTag not Found");
-                    }
-                } else {
-                    throw new IllegalArgumentException("File was empty");
+            String row = FileReader.readLine();
+            int column = -1;
+            if (row != null) {
+                String separator = getCSVSeparator(row);
+                if (!separator.equals(",")) {
+                    row = FileReader.readLine();
                 }
+                String[] columns = row.split(separator);
+                for (int i = 0; i < columns.length; i++) {
+                    if (columns[i].equals(nameTag)) {
+                        column = i;
+                        break;
+                    }
+                }
+
+                if (column >= 0) {
+                    while ((row = FileReader.readLine()) != null) {
+                        columns = row.split(separator);
+                        if (column < columns.length) {
+                            returnList.add(columns[column]);
+                        } else {
+                            throw new ArrayIndexOutOfBoundsException("Missing Data");
+                        }
+                    }
+                    return returnList;
+                } else {
+                    throw new IllegalArgumentException("NameTag not Found");
+                }
+            } else {
+                throw new IllegalArgumentException("File was empty");
             }
         } catch (IOException exception) {
             exception.printStackTrace();
