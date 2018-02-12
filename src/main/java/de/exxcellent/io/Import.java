@@ -1,5 +1,6 @@
 package de.exxcellent.io;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class Import {
         List<String> returnList = new ArrayList<>();
         // catches IOException if the file is not found
         // closes the desired resource
-        try (java.io.BufferedReader FileReader = new java.io.BufferedReader(new java.io.FileReader(
+        try (BufferedReader FileReader = new BufferedReader(new java.io.FileReader(
                 new java.io.File(filePath)))){
 
             String row = FileReader.readLine();
